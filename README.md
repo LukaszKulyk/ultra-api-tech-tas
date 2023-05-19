@@ -17,7 +17,7 @@ All the tests verifies:
 - responses headers
 - if returned data has proper format
 - if returned data has proper values
-- request responses (set to 1000 for now)
+- request responses (set to 1100 for now)
 
 ## Instructions
 To run tests locally follow the steps below:
