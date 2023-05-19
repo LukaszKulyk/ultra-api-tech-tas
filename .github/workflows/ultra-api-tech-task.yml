@@ -1,0 +1,23 @@
+name: Ultra tech task Postman api tests
+run-name: Running API tests.
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  Run-API-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Setup and Use Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.0
+      - name: Install newman
+        run: npm install -g newman
+      - name: Run tests with newman
+        run: newman run ultra-api-tech-task.postman_collection.json -e ultra-api-tech-task-environment.postman_environment.json --env-var token=f41b3c9aa3c5f8caa910964925285ea4579cd853f3010dc1fe38b9f27a5da0b9

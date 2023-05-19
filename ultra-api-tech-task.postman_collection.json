@@ -1,0 +1,1644 @@
+{
+	"info": {
+		"_postman_id": "e81cf369-24bb-4b3b-9039-e4964003270e",
+		"name": "ultra-api-tech-task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11273761"
+	},
+	"item": [
+		{
+			"name": "GET All Users - Verify if 200 OK is being returned is being returned in case of properly retrieve all existing users.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an array\", function () {",
+							"    pm.expect(jsonBody).to.be.an('array').but.not.an('object');",
+							"})",
+							"pm.test('Verify if response body items are an object', function () {",
+							"    jsonBody.forEach(element => {",
+							"        pm.expect(element).to.be.an('object').but.not.an('array');",
+							"    })",
+							"})",
+							"pm.test('Verify if all users have exactly 5 elements', function () {",
+							"    jsonBody.forEach(element => {",
+							"        let count = Object.keys(element).length",
+							"        pm.expect(count).to.equal(5);",
+							"    })",
+							"})",
+							"pm.test('Verify if each user has all fields and if those fields has proper types.', function () {",
+							"    jsonBody.forEach(element => {",
+							"        pm.expect(element).to.have.property('id').and.to.be.a('number')",
+							"        pm.expect(element).to.have.property('name').and.to.be.a('string')",
+							"        pm.expect(element).to.have.property('email').and.to.be.a('string')",
+							"        pm.expect(element).to.have.property('gender').and.to.be.a('string')",
+							"        pm.expect(element).to.have.property('status').and.to.be.a('string')",
+							"    })",
+							"})",
+							"pm.test('Verify if users emails match proper syntax', function () {",
+							"    jsonBody.forEach(element => {",
+							"        pm.expect(element.email).to.match(/.+\\@.+\\..+/gm)",
+							"    })",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});",
+							"pm.globals.set(\"properExistingUserId\", jsonBody[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Users - Verify if 200 Ok is being returned in case of extra parameters.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an array\", function () {",
+							"    pm.expect(jsonBody).to.be.an('array').but.not.an('object');",
+							"})",
+							"pm.test('Verify if response body items are an object', function () {",
+							"    jsonBody.forEach(element => {",
+							"        pm.expect(element).to.be.an('object').but.not.an('array');",
+							"    })",
+							"})",
+							"pm.test('Verify if all users have exactly 5 elements', function () {",
+							"    jsonBody.forEach(element => {",
+							"        let count = Object.keys(element).length",
+							"        pm.expect(count).to.equal(5);",
+							"    })",
+							"})",
+							"pm.test('Verify if each user has all fields and if those fields has proper types.', function () {",
+							"    jsonBody.forEach(element => {",
+							"        pm.expect(element).to.have.property('id').and.to.be.a('number')",
+							"        pm.expect(element).to.have.property('name').and.to.be.a('string')",
+							"        pm.expect(element).to.have.property('email').and.to.be.a('string')",
+							"        pm.expect(element).to.have.property('gender').and.to.be.a('string')",
+							"        pm.expect(element).to.have.property('status').and.to.be.a('string')",
+							"    })",
+							"})",
+							"pm.test('Verify if users emails match proper syntax', function () {",
+							"    jsonBody.forEach(element => {",
+							"        pm.expect(element.email).to.match(/.+\\@.+\\..+/gm)",
+							"    })",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users?testParam=param",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					],
+					"query": [
+						{
+							"key": "testParam",
+							"value": "param"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Users - Verify if 400 Bad Request is being returned in case of missing required header.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test('Verify status 400 Bad Request response', function () {",
+							"    pm.expect(pm.response.text()).to.include('<head><title>400 Bad Request</title></head>')",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET All Users - Verify if 404 Not Found is being returned in case of wrond url.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404 Not Found\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify body of 404 Not Found request response.\", function () {",
+							"    pm.expect(pm.response.json()).to.have.property('message').and.to.include('Resource not found').and.to.be.a('string');",
+							"});",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users/user",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET One User -Verify if logged in user is able to retrieve user by ID.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an object\", function () {",
+							"    pm.expect(jsonBody).to.be.an('object').but.not.an('array');",
+							"})",
+							"pm.test('Verify if user data has exactly 5 elements', function () {",
+							"    let count = Object.keys(jsonBody).length",
+							"    pm.expect(count).to.equal(5);",
+							"})",
+							"pm.test('Verify if user has all fields and if those fields has proper types.', function () {",
+							"    pm.expect(jsonBody).to.have.property('id').and.to.be.a('number')",
+							"    pm.expect(jsonBody).to.have.property('name').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('email').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('gender').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('status').and.to.be.a('string')",
+							"})",
+							"pm.test('Verify if users email match proper syntax', function () {",
+							"    pm.expect(jsonBody.email).to.match(/.+\\@.+\\..+/gm)",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{properExistingUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{properExistingUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET One User - Verify if 400 Bad Request is being returned in case of missing required header.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test('Verify status 400 Bad Request response', function () {",
+							"    pm.expect(pm.response.text()).to.include('<head><title>400 Bad Request</title></head>')",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{correctUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{correctUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET One User - Verify if 404 Not Found is being returned in case of wrond url.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test('Verify status 400 Bad Request response', function () {",
+							"    pm.expect(pm.response.text()).to.include('<head><title>400 Bad Request</title></head>')",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/userss/{{correctUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"userss",
+						"{{correctUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET One User - Verify if 404 Not Found is being returned in case of wrong username ID.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404 Not Found\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify body of 404 Not Found request response.\", function () {",
+							"    pm.expect(pm.response.json()).to.have.property('message').and.to.include('Resource not found').and.to.be.a('string');",
+							"});",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{incorrectUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{incorrectUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST New User - Verify if 401 Unauthorized user is being returned in case of missing Authorization token.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify body of 401 Unauthorized request response.\", function () {",
+							"    pm.expect(pm.response.json()).to.have.property('message').and.to.include('Authentication failed').and.to.be.a('string');",
+							"});",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "javascript"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/public/v2/users/",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST New User - Verify if 422 Unprocessable Entity is being returned in case of wrong request body.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an array\", function () {",
+							"    pm.expect(jsonBody).to.be.an('array').but.not.an('object');",
+							"})",
+							"",
+							"pm.test('Verify if all expected fields are returned and if those fields has proper types.', function () {",
+							"    jsonBody.forEach(element => {",
+							"        pm.expect(element).to.have.property('field').and.to.be.a('string')",
+							"        pm.expect(element).to.have.property('message').and.to.be.a('string')",
+							"    })",
+							"})",
+							"pm.test('Verify if user has all fields and if those fields has proper values.', function () {",
+							"    pm.expect(jsonBody[0]).to.have.property('field').and.to.include('email');",
+							"    pm.expect(jsonBody[0]).to.have.property('message').and.to.include(\"can't be blank\");",
+							"    pm.expect(jsonBody[1]).to.have.property('field').and.to.include('name');",
+							"    pm.expect(jsonBody[1]).to.have.property('message').and.to.include(\"can't be blank\");",
+							"    pm.expect(jsonBody[2]).to.have.property('field').and.to.include('gender');",
+							"    pm.expect(jsonBody[2]).to.have.property('message').and.to.include(\"can't be blank, can be male of female\");",
+							"    pm.expect(jsonBody[3]).to.have.property('field').and.to.include('status');",
+							"    pm.expect(jsonBody[3]).to.have.property('message').and.to.include(\"can't be blank\");",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/public/v2/users/",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST New User - Verify if 422 Unprocessable entity is being returned in case of not acceptable gender value and already taken email adress.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an array\", function () {",
+							"    pm.expect(jsonBody).to.be.an('array').but.not.an('object');",
+							"})",
+							"pm.test('Verify if all expected fields are returned and if those fields has proper types.', function () {",
+							"    jsonBody.forEach(element => {",
+							"        pm.expect(element).to.have.property('field').and.to.be.a('string')",
+							"        pm.expect(element).to.have.property('message').and.to.be.a('string')",
+							"    })",
+							"})",
+							"//Here is a small improvement suggestion. We should return information that user should try with male or female. Now we can see only blank information.",
+							"pm.test('Verify if gender cannot be different than male or female.', function () {",
+							"    pm.expect(jsonBody[0]).to.have.property('field').and.to.include('gender');",
+							"    pm.expect(jsonBody[0]).to.have.property('message').and.to.include(\"can't be blank, can be male of female\");",
+							"})",
+							"pm.test('Verify if that is not possible to use already taken email.', function () {",
+							"    pm.expect(jsonBody[1]).to.have.property('field').and.to.include('email');",
+							"    pm.expect(jsonBody[1]).to.have.property('message').and.to.include(\"has already been taken\");",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Aayushmaan Iyengar\",\n    \"email\": \"iyengar_aayushmaan@boyle.example\",\n    \"gender\": \"test\",\n    \"status\": \"inactive\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/public/v2/users/",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST New User - Verify if 201 Created is being returned in case of properly creating new user.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an array\", function () {",
+							"    pm.expect(jsonBody).to.be.an('object').but.not.an('array');",
+							"})",
+							"pm.test('Verify if all expected fields are returned and if those fields has proper types.', function () {",
+							"    pm.expect(jsonBody).to.have.property('id').and.to.be.a('number')",
+							"    pm.expect(jsonBody).to.have.property('name').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('email').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('gender').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('status').and.to.be.a('string')",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});",
+							"pm.globals.set(\"createdUserId\", jsonBody.id);",
+							"pm.globals.set(\"createdUserName\", jsonBody.name);",
+							"pm.globals.set(\"createdUserEmail\", jsonBody.email);",
+							"pm.globals.set(\"createdUserGender\", jsonBody.gender);",
+							"pm.globals.set(\"createdUserStatus\", jsonBody.status);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"test1234@test.com\",\n    \"gender\": \"male\",\n    \"status\": \"active\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/public/v2/users/",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET One User - Verify if 200 OK is being returned in case user has been created properly and contains all provided data.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"//let createdUserId = pm.environment.get(\"createdUserId\")",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an object\", function () {",
+							"    pm.expect(jsonBody).to.be.an('object').but.not.an('array');",
+							"})",
+							"pm.test('Verify if user data has exactly 5 elements', function () {",
+							"    let count = Object.keys(jsonBody).length",
+							"    pm.expect(count).to.equal(5);",
+							"})",
+							"pm.test('Verify if user has all fields and if those fields has proper types.', function () {",
+							"    pm.expect(jsonBody).to.have.property('id').and.to.be.a('number')",
+							"    pm.expect(jsonBody).to.have.property('name').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('email').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('gender').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('status').and.to.be.a('string')",
+							"})",
+							"pm.test('Verify if users email match proper syntax', function () {",
+							"    pm.expect(jsonBody.email).to.match(/.+\\@.+\\..+/gm)",
+							"})",
+							"pm.test('Verify if created user has all proper data.', function () {",
+							"    pm.expect(jsonBody).to.have.property('id').and.to.eq(pm.globals.get(\"createdUserId\"));",
+							"    pm.expect(jsonBody).to.have.property('name').and.to.include(pm.globals.get(\"createdUserName\"));",
+							"    pm.expect(jsonBody).to.have.property('email').and.to.include(pm.globals.get(\"createdUserEmail\"));",
+							"    pm.expect(jsonBody).to.have.property('gender').and.to.include(pm.globals.get(\"createdUserGender\"));",
+							"    pm.expect(jsonBody).to.have.property('status').and.to.include(pm.globals.get(\"createdUserStatus\"));",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{createdUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{createdUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH New User - Verify if 200 OK is being returned in case of properly updated an existing user.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an array\", function () {",
+							"    pm.expect(jsonBody).to.be.an('object').but.not.an('array');",
+							"})",
+							"pm.test('Verify if all expected fields are returned and if those fields has proper types.', function () {",
+							"    pm.expect(jsonBody).to.have.property('id').and.to.be.a('number')",
+							"    pm.expect(jsonBody).to.have.property('name').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('email').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('gender').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('status').and.to.be.a('string')",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});",
+							"pm.globals.set(\"createdUserId\", jsonBody.id);",
+							"pm.globals.set(\"createdUserName\", jsonBody.name);",
+							"pm.globals.set(\"createdUserEmail\", jsonBody.email);",
+							"pm.globals.set(\"createdUserGender\", jsonBody.gender);",
+							"pm.globals.set(\"createdUserStatus\", jsonBody.status);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"User updated\",\n    \"email\": \"newtestemail123@test.com\",\n    \"gender\": \"female\",\n    \"status\": \"inactive\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{createdUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{createdUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET One User - Verify if 200 OK is being returned in case user has been created properly updated and contains all provided data.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"//let createdUserId = pm.environment.get(\"createdUserId\")",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an object\", function () {",
+							"    pm.expect(jsonBody).to.be.an('object').but.not.an('array');",
+							"})",
+							"pm.test('Verify if user data has exactly 5 elements', function () {",
+							"    let count = Object.keys(jsonBody).length",
+							"    pm.expect(count).to.equal(5);",
+							"})",
+							"pm.test('Verify if user has all fields and if those fields has proper types.', function () {",
+							"    pm.expect(jsonBody).to.have.property('id').and.to.be.a('number')",
+							"    pm.expect(jsonBody).to.have.property('name').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('email').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('gender').and.to.be.a('string')",
+							"    pm.expect(jsonBody).to.have.property('status').and.to.be.a('string')",
+							"})",
+							"pm.test('Verify if users email match proper syntax', function () {",
+							"    pm.expect(jsonBody.email).to.match(/.+\\@.+\\..+/gm)",
+							"})",
+							"pm.test('Verify if created user has all proper data.', function () {",
+							"    pm.expect(jsonBody).to.have.property('id').and.to.eq(pm.globals.get(\"createdUserId\"));",
+							"    pm.expect(jsonBody).to.have.property('name').and.to.include(pm.globals.get(\"createdUserName\"));",
+							"    pm.expect(jsonBody).to.have.property('email').and.to.include(pm.globals.get(\"createdUserEmail\"));",
+							"    pm.expect(jsonBody).to.have.property('gender').and.to.include(pm.globals.get(\"createdUserGender\"));",
+							"    pm.expect(jsonBody).to.have.property('status').and.to.include(pm.globals.get(\"createdUserStatus\"));",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{createdUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{createdUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH New User - Verify if 422 Unprocessable Entity is being returned in case it is not possible to update user with wrong body.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an array\", function () {",
+							"    pm.expect(jsonBody).to.be.an('array').but.not.an('object');",
+							"})",
+							"pm.test('Verify if gender cannot be blank, just male or female.', function () {",
+							"    pm.expect(jsonBody[0]).to.have.property('field').and.to.include('gender');",
+							"    pm.expect(jsonBody[0]).to.have.property('message').and.to.include(\"can't be blank, can be male of female\"); ",
+							"})",
+							"pm.test('Verify if status assertion is being returned.', function () {",
+							"    pm.expect(jsonBody[1]).to.have.property('field').and.to.include('status');",
+							"    pm.expect(jsonBody[1]).to.have.property('message').and.to.include(\"can't be blank\");",
+							"})",
+							"pm.test('Verify if that email assertion is being returned.', function () {",
+							"    pm.expect(jsonBody[2]).to.have.property('field').and.to.include('email');",
+							"    pm.expect(jsonBody[2]).to.have.property('message').and.to.include(\"is invalid\");",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});",
+							"// pm.globals.set(\"createdUserId\", jsonBody.id);",
+							"// pm.globals.set(\"createdUserName\", jsonBody.name);",
+							"// pm.globals.set(\"email\", jsonBody.email);",
+							"// pm.globals.set(\"gender\", jsonBody.gender);",
+							"// pm.globals.set(\"status\", jsonBody.status);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": 123,\n    \"email\": 4546,\n    \"gender\": 666,\n    \"status\": 6666\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{createdUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{createdUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH New User - Verify if 404 Not Found is being returned in case it is not possible to update non existing user.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify if response body is an object\", function () {",
+							"    pm.expect(jsonBody).to.be.an('object').but.not.an('array');",
+							"})",
+							"pm.test('Verify if Resource not found message is being displayed.', function () {",
+							"    pm.expect(jsonBody).to.have.property('message').and.to.be.a('string').and.to.eq('Resource not found')",
+							"})",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{incorrectUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{incorrectUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE One User - Verify if 204 No Content is being returned in case of properly deleted user.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//let jsonBody = pm.response.json();",
+							"pm.test(\"Status code is 204 No Content\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{createdUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{createdUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE One User - Verify if 404 Not Found is being returned in case of trying to delete non existing user.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404 Not Found\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify body of 404 Not Found request response.\", function () {",
+							"    pm.expect(pm.response.json()).to.have.property('message').and.to.include('Resource not found').and.to.be.a('string');",
+							"});",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{incorrectUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{incorrectUserId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET One User - Verify if 404 Not Found is being returned in case of properly deleted user, which means user does not exist.",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404 Not Found\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Verify if response time is below limit\", function () {",
+							"    let responseTimeLimit = parseInt(pm.environment.get(\"responseTimeLimit\"));",
+							"    pm.expect(pm.response.responseTime).to.be.below(responseTimeLimit);",
+							"});",
+							"pm.test(\"Verify body of 404 Not Found request response.\", function () {",
+							"    pm.expect(pm.response.json()).to.have.property('message').and.to.include('Resource not found').and.to.be.a('string');",
+							"});",
+							"pm.test(\"Content-Type header is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"pm.test(\"Date header is present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"});",
+							"pm.test(\"Transfer-Encoding header is present\", function () {",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"});",
+							"pm.test(\"Connection header is present\", function () {",
+							"    pm.response.to.have.header(\"Connection\");",
+							"});",
+							"pm.test(\"Authorization header is present\", function () {",
+							"    pm.request.to.have.header(\"Authorization\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain}}/public/v2/users/{{createdUserId}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{createdUserId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
