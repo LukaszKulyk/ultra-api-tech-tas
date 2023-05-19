@@ -26,4 +26,4 @@ To run tests locally follow the steps below:
 4. Install newman `npm install -g newman`
 5. Run collection `newman run ultra-api-tech-task.postman_collection.json -e ultra-api-tech-task-environment.postman_environment.json --env-var token={TOKEN}` but replace TOKEN variable with your generated token.
 
-This solution is also included as a part of CI/CD configuration using GitHub Actions. The solution and results can be found here [link](https://github.com/LukaszKulyk/ultra-api-tech-task/actions/workflows/ultra-api-tech-task.yml)
+This solution is also included as a part of CI/CD configuration using GitHub Actions. The solution and results can be found here [link](https://github.com/LukaszKulyk/ultra-api-tech-tas/actions/workflows/ultra-api-tech-task.yml)
